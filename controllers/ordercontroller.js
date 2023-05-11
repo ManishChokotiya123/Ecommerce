@@ -2,9 +2,11 @@ const Order = require("../model/orderModel");
 const Product = require("../model/productModel");
 const ErrorHander = require("../utilis/Erorrhandler");
 const catchAsyncErrors = require("../middleware/catchAsyncError");
-
+const moongoose = require("mongoose");
+const ObjectId = moongoose.Schema;
 // Create new Order
 exports.newOrder = catchAsyncErrors(async (req, res, next) => {
+  console.log("8:", req.body);
   const {
     shippingInfo,
     orderItems,
@@ -14,6 +16,7 @@ exports.newOrder = catchAsyncErrors(async (req, res, next) => {
     shippingPrice,
     totalPrice,
   } = req.body;
+  console.log("18:", paymentInfo);
 
   const order = await Order.create({
     shippingInfo,
@@ -52,7 +55,7 @@ exports.getSingleOrder = catchAsyncErrors(async (req, res, next) => {
 
 // get logged in user  Orders
 exports.myOrders = catchAsyncErrors(async (req, res, next) => {
-  console.log("User:", req.user);
+  console.log("User:", req.user._id);
   const orders = await Order.find({ user: req.user._id });
   console.log("orders:", orders);
   res.status(200).json({

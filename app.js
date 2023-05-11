@@ -7,6 +7,10 @@ const cloudinary = require("cloudinary");
 var dotenv = require("dotenv");
 dotenv.config();
 const connectDatabase = require("./config/config");
+const swaggerJsDoc = require("swagger-jsdoc");
+const swaggerUi = require("swagger-ui-express");
+const SwaggerOptions = require("./swagger.json");
+const swaggerDocument = swaggerJsDoc(SwaggerOptions);
 
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
@@ -25,17 +29,17 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
-app.use("/", productRouter);
+app.use("/admin", productRouter);
 app.use("/", paymentRouter);
 app.use("/", orderRouter);
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   next(createError(404));
 });
-
 // error handler
 app.use(function (err, req, res, next) {
   console.log("Error:", err);
