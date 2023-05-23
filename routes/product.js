@@ -21,6 +21,22 @@ const router = express.Router();
  *       - Products
  *
  *    description: Get all the users from DB
+ *    parameters:
+ *       - in: path
+ *         name: keyword
+ *  
+ *         schema:
+ *           type: string
+ *       - in: path
+ *         name: price[lte]
+ *     
+ *         schema:
+ *           type: string
+ *       - in: path
+ *         name: price[gte]
+
+ *         schema:
+ *           type: string
  *    produces:
  *       - application/json
  *    responses:
